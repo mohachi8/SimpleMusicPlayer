@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SimpleMusicPlayer</string>
+    <string name="title">Simple Music Player</string>
+    <string name="Start">Start</string>
+    <string name="Stop">Stop</string>
+    <string name="playMusic">Play Music</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
