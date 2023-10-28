@@ -5,21 +5,28 @@ import android.media.MediaPlayer
 
 class MusicManager(context: Context) {
 
-    private lateinit var mediaPlayer: MediaPlayer
+    private var mediaPlayer: MediaPlayer? = null
     private val myContext: Context = context
+    private var isReleased = true // mediaPlayerが解放されているかどうかを示すフラグ
 
     fun startMusic() {
-        // MediaPlayerが初期化されておらず、または再生中でない場合のみ音楽を再生
-        if (!::mediaPlayer.isInitialized || !mediaPlayer.isPlaying) {
+        if (mediaPlayer == null || isReleased) {
             mediaPlayer = MediaPlayer.create(myContext, R.raw.music)
-            mediaPlayer.start()
+            mediaPlayer?.start()
+            isReleased = false // mediaPlayerが作成されたので、フラグをfalseに設定
+        } else if (!mediaPlayer!!.isPlaying) {
+            mediaPlayer?.start()
         }
     }
 
-
-    fun stopMusic(){
-        mediaPlayer.stop()
-        mediaPlayer.reset()
-        mediaPlayer.release()
+    fun stopMusic() {
+        if (!isReleased && mediaPlayer != null) { // isReleasedがtrueでない場合のみstopやreleaseを呼び出す
+            if (mediaPlayer!!.isPlaying) {
+                mediaPlayer?.stop()
+                mediaPlayer?.reset()
+            }
+            mediaPlayer?.release()
+            isReleased = true // mediaPlayerが解放されたので、フラグをtrueに設定
+        }
     }
 }
